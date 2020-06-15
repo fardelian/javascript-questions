@@ -3118,15 +3118,15 @@ console.log(getList(list))
 console.log(getUser(user))
 ```
 
-- A: `[1, [2, 3, 4]]` and `undefined`
+- A: `[1, 2, 3, 4]` and `undefined`
 - B: `[1, [2, 3, 4]]` and `{ name: "Lydia", age: 21 }`
-- C: `[1, 2, 3, 4]` and `{ name: "Lydia", age: 21 }`
-- D: `Error` and `{ name: "Lydia", age: 21 }`
+- C: `Error`
+- D: `[1, [2, 3, 4]]` and `{ user }`
 
 <details><summary><b>Answer</b></summary>
 <p>
 
-#### Answer: A
+#### Answer: C
 
 The `getList` function receives an array as its argument. Between the parentheses of the `getList` function, we destructure this array right away. You could see this as:
 
@@ -3134,11 +3134,20 @@ The `getList` function receives an array as its argument. Between the parenthese
 
 With the rest parameter `...y`, we put all "remaining" arguments in an array. The remaining arguments are `2`, `3` and `4` in this case. The value of `y` is an array, containing all the rest parameters. The value of `x` is equal to `1` in this case, so when we log `[x, y]`, `[1, [2, 3, 4]]` gets logged.
 
-The `getUser` function receives an object. With arrow functions, we don't _have_ to write curly brackets if we just return one value. However, if you want to return an _object_ from an arrow function, you have to write it between parentheses, otherwise no value gets returned! The following function would have returned an object:
+The `getUser` function receives an object. With arrow functions, we don't _have_ to write curly brackets if we just return one value. However, if you want to return an _object_ from an arrow function, you have to write it between parentheses, otherwise your JavaScript code won't compile because of a **SyntaxError**! The following function would have compiled and returned an object:
 
 `const getUser = user => ({ name: user.name, age: user.age })`
 
-Since no value gets returned in this case, the function returns `undefined`.
+Without the parentheses, the parser assumes you're writing a block arrow function:
+
+```javascript
+const getUser = user => {
+    name: user.name,
+    age: user.age
+}
+```
+
+which is not valid JavaScript.
 
 </p>
 </details>
